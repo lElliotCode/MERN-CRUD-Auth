@@ -50,7 +50,7 @@ export const deleteTask = async (req, res) => {
 
     try {
         const some = await TaskModel.deleteOne(taskFound)
-        return res.json( { some })
+        return res.status(200).json( { message: 'Tarea eliminada correctamente'} )
     
     } catch (e) {
         return res.sendStatus(500).json({ message: 'Error in Server'})
