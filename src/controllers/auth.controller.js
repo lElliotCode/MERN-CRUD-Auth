@@ -7,6 +7,10 @@ export const register = async (req, res) => {
 
     try {
 
+        const userFound = await UserModel.findOne({email})
+
+        if(userFound) return res.status(400).json(['The email is already in use'])
+
         const passwordHash = await bcrypt.hash(password, 10)
 
         const newUser = new UserModel({
