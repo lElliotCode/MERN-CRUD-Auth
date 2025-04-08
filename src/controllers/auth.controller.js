@@ -1,6 +1,8 @@
 import UserModel from '../models/user.model.js'
 import bcrypt from 'bcryptjs';
 import { createAccesToken } from '../libs/jwt.js';
+import jwt from 'jsonwebtoken'
+import 'dotenv/config'
 
 export const register = async (req, res) => {
     const {username, email, password} = req.body;
@@ -45,7 +47,7 @@ export const login = async (req, res) => {
         const userFound = await UserModel.findOne( { email })
 
         if(!userFound) {
-            return res.status(400).json( {error: 'Invalid Credential'} )
+            return res.status(400).json(['Invalid Credential'])
         }
 
         const isMatchPassword = await bcrypt.compare(password, userFound.password)
@@ -56,7 +58,10 @@ export const login = async (req, res) => {
 
         const token = await createAccesToken( {id: userFound._id} )
 
-        res.cookie('token', token)
+        res.cookie('token', token, {
+            secure: true,
+            sameSite: 'none'
+        })
         res.json({
             id: userFound._id,
             username: userFound.username,
@@ -91,4 +96,28 @@ export const profile = async (req, res) => {
         createdAt: userFound.createdAt,
         updatedAt: userFound.updatedAt
     })
+}
+
+export const verifyToken = async (req, res) => {
+    const { token } = req.cookies
+
+    if(!token) return res.status(401).json({ message: 'Unauthorized' })
+
+    jwt.verify(token, process.env.TOKEN_SECRET, async (err, user ) => {
+        if(err) return res.status(401).json({ message: 'Unauthorized' })
+
+        const userFound = await UserModel.findById(user.id)
+
+        if(!userFound) {
+            return res.status(401).json({ message: 'Unauthorized' })
+        }
+
+        return res.json({
+            id: userFound.id,
+            username: userFound.username,
+            email: userFound.email
+        })
+    })
+
+    
 }

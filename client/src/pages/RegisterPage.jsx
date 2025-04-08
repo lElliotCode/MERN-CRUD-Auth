@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useAuth } from '../context/useAuth'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
+import { Header } from '../components/Header'
 
 
 export function RegisterPage() {
@@ -20,7 +21,9 @@ export function RegisterPage() {
 
     return (
         <>
+            <Header />
             <main className='w-full py-4'>
+                
                 <div className='bg-zinc-800 p-10 m-auto rounded-md max-w-lg'>
                     {
                         registerErrors.map((err, i) => {
@@ -31,6 +34,7 @@ export function RegisterPage() {
                             )
                         })
                     }
+                    <h2 className='text-2xl'>Registro</h2>
                     <form onSubmit={onSubmit} className=' flex flex-col w-full'>
 
                         <input
@@ -57,6 +61,7 @@ export function RegisterPage() {
                         <button
                             className='my-2 py-2 bg-zinc-900 hover:bg-zinc-950 rounded-md'>Registrar</button>
                     </form>
+                    <p>Ya tienes una cuenta? <Link to='/login' className='text-sky-500 hover:underline' >Ingresa</Link></p>
                 </div>
 
             </main>

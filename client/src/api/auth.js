@@ -1,5 +1,10 @@
-import axios from 'axios'
+import axios from './axios'
+axios.defaults.withCredentials = true;
 
-const API = 'http://localhost:3000/api/'
+export const registerRequest = (user) => axios.post(`register`, user)
 
-export const registerRequest = (user) => axios.post(`${API}register`, user)
+export const loginRequest = (credentials) => axios.post(`login`, credentials)
+
+export const logoutRequest = () => axios.post('/logout')
+
+export const verifyTokenRequest = () => axios.get('/verify')

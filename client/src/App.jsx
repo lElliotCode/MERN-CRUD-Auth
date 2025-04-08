@@ -1,7 +1,13 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
 import { RegisterPage } from './pages/RegisterPage'
 import { LoginPage } from './pages/LoginPage'
+import { ProfilePage } from './pages/ProfilePage'
+import { TaskPage } from './pages/TaskPage'
+import { TaskFormPage } from './pages/TaskFormPage'
+import { HomePage } from './pages/HomePage'
 import { AuthProvider } from './context/AuthContext'
+import { ProtectedRoute } from './ProtectedRoute'
 
 function App() {
 
@@ -9,13 +15,15 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<h1 className=' text-3xl text-red-900 flex justify-center items-center'>Home Page</h1>} />
+          <Route path='/' element={<HomePage />} />
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/login' element={<LoginPage />} />
-          <Route path='/profile' element={<h1>Profile</h1>} />
-          <Route path='/tasks' element={<h1>Tasks</h1>} />
-          <Route path='/add-task' element={<h1>Tasks por ID</h1>} />
-          <Route path='/tasks/:id' element={<h1>Modificar Task</h1>} />
+          <Route element={<ProtectedRoute />}>
+            <Route path='/profile' element={<ProfilePage />} />
+            <Route path='/tasks' element={<TaskPage />} />
+            <Route path='/add-task' element={<TaskFormPage />} />
+            <Route path='/tasks/:id' element={<TaskFormPage />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </AuthProvider>
