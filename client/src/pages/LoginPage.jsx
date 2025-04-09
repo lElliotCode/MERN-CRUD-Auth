@@ -21,7 +21,6 @@ export function LoginPage() {
 
     return (
         <>
-            <Header />
             <main className='w-full py-4'>
                 <div className='bg-zinc-800 p-10 m-auto rounded-md max-w-lg'>
                     <h1 className='text-3xl'>Login</h1>

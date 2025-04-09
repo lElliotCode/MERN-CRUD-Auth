@@ -21,7 +21,6 @@ export function RegisterPage() {
 
     return (
         <>
-            <Header />
             <main className='w-full py-4'>
                 
                 <div className='bg-zinc-800 p-10 m-auto rounded-md max-w-lg'>
